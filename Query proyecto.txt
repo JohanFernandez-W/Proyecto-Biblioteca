@@ -1,0 +1,54 @@
+CREATE TABLE UBICACION (
+  Id_ubicacion INT PRIMARY KEY IDENTITY(1,1),
+  Lugar VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE LIBROS (
+  Id_libros INT PRIMARY KEY IDENTITY(1,1),
+  titulo VARCHAR(255) NOT NULL,
+  Id_ubicacion INT NOT NULL,
+  editorial VARCHAR(100) NOT NULL,
+  fecha_publicacion DATE NOT NULL,
+  categoria VARCHAR(50) NOT NULL,
+  Estado_Libro VARCHAR(100),
+  FOREIGN KEY (Id_ubicacion) REFERENCES UBICACION (Id_ubicacion)
+);
+
+CREATE TABLE USUARIOS (
+  Id_usuario INT PRIMARY KEY IDENTITY(1,1),
+  nombre VARCHAR(50) NOT NULL,
+  apellido VARCHAR(50) NOT NULL,
+  cedula BIGINT NOT NULL UNIQUE,
+  telefono BIGINT NOT NULL,
+  correo VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE RESERVA_SALON (
+  Id_ReservaSalon INT PRIMARY KEY IDENTITY(1,1),
+  fecha_reserva DATE NOT NULL,
+  fecha_y_hora_inicio DATETIME NOT NULL,
+  fecha_y_hora_fin DATETIME NOT NULL,
+  Estado_Salon VARCHAR(100),
+);
+
+CREATE TABLE VIDEOBEAMS (
+  Id_videobeams INT PRIMARY KEY IDENTITY(1,1),
+  marca VARCHAR(50) NOT NULL,
+  condicion VARCHAR(50) NOT NULL,
+  descripcion TEXT,
+  Estado_VideoBeams VARCHAR(100)
+);
+
+CREATE TABLE PRESTAMOS (
+  Id_prestamo INT PRIMARY KEY IDENTITY(1,1),
+  Id_usuario INT NOT NULL,
+  Id_libro INT NULL,
+  Id_videobeams INT NULL,
+  Id_reserva INT NULL,
+  fecha_y_hora_prestamo DATETIME NOT NULL,
+  fecha_y_hora_devolucion DATETIME,
+  FOREIGN KEY (Id_libro) REFERENCES LIBROS (Id_libros),
+  FOREIGN KEY (Id_usuario) REFERENCES USUARIOS (Id_usuario),
+  FOREIGN KEY (Id_videobeams) REFERENCES VIDEOBEAMS (Id_videobeams),
+  FOREIGN KEY (Id_reserva) REFERENCES RESERVA_SALON (Id_ReservaSalon)
+);
